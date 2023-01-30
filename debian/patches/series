@@ -1,0 +1,8 @@
+0004-grpc-1.27.x.patch
+0005-go1.14-cipher.patch
+0006-ignore-bind-error-in-embed-serve_test.go.patch
+0007-switch-to-creack-pty.patch
+0008-use-TLS.Config.MaxVersion-to-TLS-1.2.patch
+0009-only-warn-on-unsupported-arch.patch
+0010-Increase-the-given-latency-in-test.patch
+0011-Fix-goroutine-leak-in-clientv3-test.patch

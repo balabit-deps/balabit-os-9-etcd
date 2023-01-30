@@ -1,0 +1,58 @@
+From: Shengjing Zhu <zhsj@debian.org>
+Date: Tue, 6 Oct 2020 23:24:41 +0800
+Subject: grpc 1.27.x
+
+Origin: backport, https://github.com/etcd-io/etcd/pull/11564
+---
+ clientv3/balancer/picker/err.go                 | 2 +-
+ clientv3/balancer/picker/roundrobin_balanced.go | 2 +-
+ clientv3/balancer/resolver/endpoint/endpoint.go | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/clientv3/balancer/picker/err.go b/clientv3/balancer/picker/err.go
+index 9e04378..f4b941d 100644
+--- a/clientv3/balancer/picker/err.go
++++ b/clientv3/balancer/picker/err.go
+@@ -34,6 +34,6 @@ func (ep *errPicker) String() string {
+ 	return ep.p.String()
+ }
+ 
+-func (ep *errPicker) Pick(context.Context, balancer.PickOptions) (balancer.SubConn, func(balancer.DoneInfo), error) {
++func (ep *errPicker) Pick(context.Context, balancer.PickInfo) (balancer.SubConn, func(balancer.DoneInfo), error) {
+ 	return nil, nil, ep.err
+ }
+diff --git a/clientv3/balancer/picker/roundrobin_balanced.go b/clientv3/balancer/picker/roundrobin_balanced.go
+index 1b8b285..e3971ec 100644
+--- a/clientv3/balancer/picker/roundrobin_balanced.go
++++ b/clientv3/balancer/picker/roundrobin_balanced.go
+@@ -52,7 +52,7 @@ type rrBalanced struct {
+ func (rb *rrBalanced) String() string { return rb.p.String() }
+ 
+ // Pick is called for every client request.
+-func (rb *rrBalanced) Pick(ctx context.Context, opts balancer.PickOptions) (balancer.SubConn, func(balancer.DoneInfo), error) {
++func (rb *rrBalanced) Pick(ctx context.Context, opts balancer.PickInfo) (balancer.SubConn, func(balancer.DoneInfo), error) {
+ 	rb.mu.RLock()
+ 	n := len(rb.scs)
+ 	rb.mu.RUnlock()
+diff --git a/clientv3/balancer/resolver/endpoint/endpoint.go b/clientv3/balancer/resolver/endpoint/endpoint.go
+index 864b5df..2837bd4 100644
+--- a/clientv3/balancer/resolver/endpoint/endpoint.go
++++ b/clientv3/balancer/resolver/endpoint/endpoint.go
+@@ -111,7 +111,7 @@ func (e *ResolverGroup) Close() {
+ }
+ 
+ // Build creates or reuses an etcd resolver for the etcd cluster name identified by the authority part of the target.
+-func (b *builder) Build(target resolver.Target, cc resolver.ClientConn, opts resolver.BuildOption) (resolver.Resolver, error) {
++func (b *builder) Build(target resolver.Target, cc resolver.ClientConn, opts resolver.BuildOptions) (resolver.Resolver, error) {
+ 	if len(target.Authority) < 1 {
+ 		return nil, fmt.Errorf("'etcd' target scheme requires non-empty authority identifying etcd cluster being routed to")
+ 	}
+@@ -179,7 +179,7 @@ func epsToAddrs(eps ...string) (addrs []resolver.Address) {
+ 	return addrs
+ }
+ 
+-func (*Resolver) ResolveNow(o resolver.ResolveNowOption) {}
++func (*Resolver) ResolveNow(o resolver.ResolveNowOptions) {}
+ 
+ func (r *Resolver) Close() {
+ 	es, err := bldr.getResolverGroup(r.endpointID)

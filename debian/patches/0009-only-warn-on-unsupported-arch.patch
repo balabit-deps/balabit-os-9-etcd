@@ -1,0 +1,25 @@
+From: Shengjing Zhu <zhsj@debian.org>
+Date: Thu, 8 Oct 2020 02:39:10 +0800
+Subject: only warn on unsupported arch
+
+Forwarded: not-needed
+---
+ etcdmain/etcd.go | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/etcdmain/etcd.go b/etcdmain/etcd.go
+index fbde067..d96b30f 100644
+--- a/etcdmain/etcd.go
++++ b/etcdmain/etcd.go
+@@ -390,10 +390,5 @@ func checkSupportArch() {
+ 	// unsupported arch only configured via environment variable
+ 	// so unset here to not parse through flag
+ 	defer os.Unsetenv("ETCD_UNSUPPORTED_ARCH")
+-	if env, ok := os.LookupEnv("ETCD_UNSUPPORTED_ARCH"); ok && env == runtime.GOARCH {
+-		plog.Warningf("running etcd on unsupported architecture %q since ETCD_UNSUPPORTED_ARCH is set", env)
+-		return
+-	}
+-	plog.Errorf("etcd on unsupported platform without ETCD_UNSUPPORTED_ARCH=%s set.", runtime.GOARCH)
+-	os.Exit(1)
++	plog.Warningf("running etcd on unsupported architecture %s", runtime.GOARCH)
+ }

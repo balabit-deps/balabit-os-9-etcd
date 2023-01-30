@@ -1,0 +1,22 @@
+From: Shengjing Zhu <zhsj@debian.org>
+Date: Wed, 7 Oct 2020 18:00:22 +0800
+Subject: switch to creack/pty
+
+Origin: backport, https://github.com/etcd-io/etcd/pull/10918
+---
+ pkg/expect/expect.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pkg/expect/expect.go b/pkg/expect/expect.go
+index e022798..2e32eb5 100644
+--- a/pkg/expect/expect.go
++++ b/pkg/expect/expect.go
+@@ -25,7 +25,7 @@ import (
+ 	"sync"
+ 	"syscall"
+ 
+-	"github.com/kr/pty"
++	"github.com/creack/pty"
+ )
+ 
+ type ExpectProcess struct {
