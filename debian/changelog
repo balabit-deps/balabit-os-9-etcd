@@ -1,3 +1,9 @@
+etcd (3.3.25+dfsg-7ubuntu0.22.04.2) jammy-security; urgency=medium
+
+  * No change rebuild due to golang-1.18 update
+
+ -- Allen Huang <allen.huang@canonical.com>  Mon, 18 Nov 2024 12:24:41 +0000
+
 etcd (3.3.25+dfsg-7ubuntu0.22.04.1) jammy-security; urgency=medium
 
   * No-change rebuild for golang-golang-x-text
